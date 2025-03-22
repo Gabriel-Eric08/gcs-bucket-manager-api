@@ -105,3 +105,20 @@ def downloadFile(bucket_name, file_name):
         return send_file(temp_file.name, as_attachment=True, download_name=file_name)
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
+
+@buckets_route.route('/<bucket_name>/files/<file_name>', methods=['DELETE'])
+def deleteFile(bucket_name, file_name):
+    creds, error = getCredentials()
+    if error:
+        return jsonify({"erro": error}), 400
+
+    try:
+        storage_client = storage.Client(credentials=creds)
+        bucket = storage_client.get_bucket(bucket_name)
+        blob = bucket.blob(file_name)
+        blob.delete()
+
+        return jsonify({"mensagem": f"Arquivo {file_name} apagado com sucesso."}), 200
+    
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500

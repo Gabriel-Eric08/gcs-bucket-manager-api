@@ -198,4 +198,8 @@ Contribuições são bem-vindas! Siga os passos abaixo:
 2. 🛠 Crie uma branch para sua feature (`git checkout -b feature/nova-feature`).
 3. 💾 Commit suas mudanças (`git commit -m 'Adiciona nova feature'`).
 4. 📤 Faça push para a branch (`git push origin feature/nova-feature`).
+<<<<<<< HEAD
 5. 🔁 Abra um Pull Request.
+=======
+5. 🔁 Abra um Pull Request.
+>>>>>>> 6c465a053fee6d4beb3cca026c331411eda8668a

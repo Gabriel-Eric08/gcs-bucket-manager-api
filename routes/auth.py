@@ -6,9 +6,6 @@ import utils.tryconnectgcs
 
 auth_route = Blueprint('Auth', __name__)
 
-@auth_route.route('/')
-def teste():
-    return 'Estou funcionando'
 
 @auth_route.route('/uploadcredentials', methods =['POST'])
 def setCredentials():
@@ -19,7 +16,7 @@ def setCredentials():
 
     try:
         credential_str = json.dumps(credentials)
-        resp = (jsonify({"mensagem":"Credenciais salvas com sucesso!"}))
+        resp = (jsonify({"mensagem":"Autenticação realizada com sucesso!"}))
         resp.set_cookie("cloud_credentials", credential_str, max_age=60*60*24)
 
         creds = service_account.Credentials.from_service_account_info(credentials)
