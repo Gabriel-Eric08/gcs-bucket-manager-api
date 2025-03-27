@@ -1,11 +1,14 @@
 import json
 from google.oauth2 import service_account
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template
 from google.cloud import storage
 import utils.tryconnectgcs
 
 auth_route = Blueprint('Auth', __name__)
 
+@auth_route.route('/')
+def teste():
+    return render_template('auth.html')
 
 @auth_route.route('/uploadcredentials', methods =['POST'])
 def setCredentials():
@@ -16,7 +19,7 @@ def setCredentials():
 
     try:
         credential_str = json.dumps(credentials)
-        resp = (jsonify({"mensagem":"Autenticação realizada com sucesso!"}))
+        resp = (jsonify({"mensagem":"Credenciais salvas com sucesso!"}))
         resp.set_cookie("cloud_credentials", credential_str, max_age=60*60*24)
 
         creds = service_account.Credentials.from_service_account_info(credentials)

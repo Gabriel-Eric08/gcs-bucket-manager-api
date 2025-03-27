@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, send_file
+from flask import Blueprint, request, jsonify, send_file, render_template
 from google.cloud import storage
 import uuid
 from utils.tryconnectgcs import getCredentials
@@ -14,9 +14,9 @@ def listBuckets():
 
     try:
         storage_client = storage.Client(credentials=creds)
-        buckets = storage_client.list_buckets()
-        bucket_names = [bucket.name for bucket in buckets]
-        return jsonify({"buckets": bucket_names})
+        list_buckets = storage_client.list_buckets()
+        buckets = [bucket for bucket in list_buckets]
+        return render_template('buckets.html', buckets=buckets)
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
@@ -103,22 +103,5 @@ def downloadFile(bucket_name, file_name):
 
         # Enviar o arquivo como um anexo
         return send_file(temp_file.name, as_attachment=True, download_name=file_name)
-    except Exception as e:
-        return jsonify({"erro": str(e)}), 500
-
-@buckets_route.route('/<bucket_name>/files/<file_name>', methods=['DELETE'])
-def deleteFile(bucket_name, file_name):
-    creds, error = getCredentials()
-    if error:
-        return jsonify({"erro": error}), 400
-
-    try:
-        storage_client = storage.Client(credentials=creds)
-        bucket = storage_client.get_bucket(bucket_name)
-        blob = bucket.blob(file_name)
-        blob.delete()
-
-        return jsonify({"mensagem": f"Arquivo {file_name} apagado com sucesso."}), 200
-    
     except Exception as e:
         return jsonify({"erro": str(e)}), 500

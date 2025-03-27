@@ -1,0 +1,282 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "GCloud Manager API",
+    "version": "1.0.0",
+    "description": "API para gerenciar buckets e arquivos no Google Cloud Storage."
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Interface Swagger UI",
+        "description": "Retorna a interface Swagger UI documentando todas as rotas.",
+        "responses": {
+          "200": {
+            "description": "Página do Swagger UI carregada com sucesso."
+          }
+        }
+      }
+    },
+    "/auth": {
+      "post": {
+        "summary": "Autentica a API com o Google Cloud",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "project_id": {
+                    "type": "string"
+                  },
+                  "private_key_id": {
+                    "type": "string"
+                  },
+                  "private_key": {
+                    "type": "string"
+                  },
+                  "client_email": {
+                    "type": "string"
+                  },
+                  "client_id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "type",
+                  "project_id",
+                  "private_key",
+                  "client_email",
+                  "client_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Autenticação realizada com sucesso.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Autenticação realizada com sucesso!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/buckets": {
+      "get": {
+        "summary": "Lista todos os buckets",
+        "responses": {
+          "200": {
+            "description": "Lista de buckets.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "buckets": [
+                    "seu_bucket",
+                    "seu_bucket_2"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Cria um novo bucket",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "bucket_name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "bucket_name"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Bucket criado com sucesso.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bucket 'nome_desejado' criado com sucesso!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/buckets/{bucket_name}": {
+      "delete": {
+        "summary": "Deleta um bucket",
+        "parameters": [
+          {
+            "name": "bucket_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Bucket deletado com sucesso.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bucket 'nome_do_bucket' deletado com sucesso!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/buckets/{bucket_name}/files": {
+      "get": {
+        "summary": "Lista todos os arquivos de um bucket",
+        "parameters": [
+          {
+            "name": "bucket_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de arquivos.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "files": [
+                    "arquivo1.txt",
+                    "arquivo2.mp4",
+                    "arquivo3.png"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{bucket_name}/files/{file_name}": {
+      "get": {
+        "summary": "Gera um link temporário para um arquivo",
+        "parameters": [
+          {
+            "name": "bucket_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "file_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Link gerado com sucesso.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "url": "https://storage.googleapis.com/nome_do_bucket/arquivo.txt?generated_token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deleta um arquivo de um bucket",
+        "parameters": [
+          {
+            "name": "bucket_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "file_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Arquivo deletado com sucesso.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Arquivo 'arquivo.txt' deletado com sucesso!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{bucket_name}/files/{file_name}/download": {
+      "get": {
+        "summary": "Faz o download de um arquivo",
+        "parameters": [
+          {
+            "name": "bucket_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "file_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Download do arquivo."
+          }
+        }
+      }
+    }
+  }
+}
