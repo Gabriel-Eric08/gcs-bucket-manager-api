@@ -37,7 +37,13 @@ Este projeto está hospedado em [GCloud Manager API](https://api-gcs-manager.rj.
 A API oferece os seguintes endpoints:
 
 ### `GET /`
-📄 Retorna uma interface Swagger UI que documenta todas as rotas, funcionalidades e como usá-las.
+📄 Retorna uma página HTML inicial com uma breve apresentação dos principais endpoints e três botões:
+- Acessar a página `/auth`
+- Acessar `/buckets`
+- Acessar `/swagger`
+
+### `GET /auth`
+🔐 Retorna uma página HTML com um textarea para o usuário inserir suas credenciais. Um botão na página envia uma requisição `POST` com as credenciais no corpo.
 
 ### `POST /auth`
 🔐 Autentica a API com sua conta do Google Cloud. É necessário enviar um JSON com suas credenciais.
@@ -74,18 +80,11 @@ Content-Type: application/json
 }
 ```
 
-### `GET /buckets`
-📂 Lista todos os buckets do usuário.
+### `GET /swagger`
+📄 Retorna a documentação Swagger da API.
 
-#### 📄 Exemplo de Resposta:
-```json
-{
-  "buckets": [
-    "seu_bucket",
-    "seu_bucket_2"
-  ]
-}
-```
+### `GET /buckets`
+📂 Retorna uma tabela HTML listando todos os buckets do usuário, com opções para gerenciar e deletar.
 
 ### `POST /buckets`
 ➕ Cria um novo bucket.
@@ -168,33 +167,6 @@ GET /nome_do_bucket/files/arquivo.txt/download
 #### ✅ Resposta:
 O arquivo é baixado diretamente no navegador ou no cliente HTTP.
 
-## 🛠 Exemplos de Uso
-
-### 💻 Exemplo em Python
-```python
-import requests
-
-# Autenticação
-auth_url = "http://localhost:5000/auth"
-creds = {...}
-response = requests.post(auth_url, json=creds)
-print(response.json())
-
-# Listar buckets
-buckets_url = "http://localhost:5000/buckets"
-response = requests.get(buckets_url)
-print(response.json())
-```
-
-### 🌐 Exemplo em cURL
-```bash
-# Autenticação
-curl -X POST http://localhost:5000/auth -H "Content-Type: application/json" -d '@creds.json'
-
-# Listar buckets
-curl -X GET http://localhost:5000/buckets
-```
-
 ## 🤝 Contribuição
 
 Contribuições são bem-vindas! Siga os passos abaixo:
@@ -203,8 +175,4 @@ Contribuições são bem-vindas! Siga os passos abaixo:
 2. 🛠 Crie uma branch para sua feature (`git checkout -b feature/nova-feature`).
 3. 💾 Commit suas mudanças (`git commit -m 'Adiciona nova feature'`).
 4. 📤 Faça push para a branch (`git push origin feature/nova-feature`).
-<<<<<<< HEAD
 5. 🔁 Abra um Pull Request.
-=======
-5. 🔁 Abra um Pull Request.
->>>>>>> 6c465a053fee6d4beb3cca026c331411eda8668a
