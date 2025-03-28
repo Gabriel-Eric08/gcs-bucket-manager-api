@@ -7,7 +7,7 @@ API para gerenciar buckets e arquivos no Google Cloud Storage. Com esta API, voc
 A API tem como objetivo facilitar o gerenciamento de buckets e arquivos no Google Cloud Storage, fornecendo endpoints para operações comuns como listagem, criação, exclusão e compartilhamento de arquivos.
 
 ## ☁️ Acessando a API online
-Este projeto está hospedado em [GCloud Manager API](https://api-gcs-manager.rj.r.appspot.com).
+Este projeto está hospedado em [GCloud Manager API](https://api-gcs-manager-455102.rj.r.appspot.com).
 
 ## Usando a API de forma local.
 
